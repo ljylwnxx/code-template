@@ -2,7 +2,7 @@ name: Vite Vue Deploy
 
 on:
   push:
-    # master 分支有 push 时触发
+    # main 分支有 push 时触发
     branches: [main]
 
 jobs:
