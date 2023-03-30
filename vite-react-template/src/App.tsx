@@ -1,18 +1,11 @@
-import * as React from 'react';
+import { useRoutes } from 'react-router-dom'
 
-import { useRoutes } from 'react-router-dom';
-
-import Test from './components/test';
-import routes from './router';
+import './App.css'
+import routes from './router'
 
 function App() {
   const element = useRoutes(routes)
-  return (
-    <div className="App">
-      <Test tag="666" />
-      {element}
-    </div>
-  )
+  return element
 }
 
 export default App
