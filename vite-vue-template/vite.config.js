@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { TDesignResolver } from 'unplugin-vue-components/resolvers';
+import { resolve } from 'path';
 
 export default defineConfig({
     base: './',
@@ -48,5 +49,16 @@ export default defineConfig({
       chunkSizeWarningLimit: 2000,
       // 启用/禁用 gzip 压缩大小报告
       reportCompressedSize: false,
+    },
+    css: {
+      preprocessorOptions: {
+        less: {
+          modifyVars: {
+            hack: `true; @import (reference) "${resolve('src/style/variables.less')}";`,
+          },
+          math: 'strict',
+          javascriptEnabled: true,
+        },
+      },
     },
 })
