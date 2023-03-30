@@ -100,4 +100,4 @@ export const _delete = (url, params = {}) => {
   });
 };
 
-export default instance
+export default instance;

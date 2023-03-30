@@ -1,36 +1,53 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { TDesignResolver } from 'unplugin-vue-components/resolvers';
-import { resolve } from 'path';
 
-export default defineConfig({
-    base: './',
+export default ({ mode }) => {
+  const { VITE_PORT, VITE_BASE_URL } = loadEnv(mode, process.cwd());
+
+  return defineConfig({
+    base: VITE_BASE_URL,
     plugins: [
       vue(),
       AutoImport({
-        resolvers: [TDesignResolver({
-          library: 'vue-next'
-        })],
+        resolvers: [
+          TDesignResolver({
+            library: 'vue-next',
+          }),
+        ],
       }),
       Components({
-        resolvers: [TDesignResolver({
-          library: 'vue-next'
-        })],
+        resolvers: [
+          TDesignResolver({
+            library: 'vue-next',
+          }),
+        ],
       }),
     ],
     resolve: {
       alias: {
-        '@': resolve(__dirname, './src') ,
+        '@': resolve(__dirname, 'src'),
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        less: {
+          modifyVars: {
+            hack: `true; @import (reference) "${resolve('src/style/variables.less')}";`,
+          },
+          math: 'strict',
+          javascriptEnabled: true,
+        },
       },
     },
     server: {
       // 是否开启 https
       https: false,
       // 端口号
-      port: 3000,
+      port: VITE_PORT,
       // 监听所有地址
       host: '0.0.0.0',
       // 服务启动时是否自动打开浏览器
@@ -50,15 +67,5 @@ export default defineConfig({
       // 启用/禁用 gzip 压缩大小报告
       reportCompressedSize: false,
     },
-    css: {
-      preprocessorOptions: {
-        less: {
-          modifyVars: {
-            hack: `true; @import (reference) "${resolve('src/style/variables.less')}";`,
-          },
-          math: 'strict',
-          javascriptEnabled: true,
-        },
-      },
-    },
-})
+  });
+};
