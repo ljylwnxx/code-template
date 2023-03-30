@@ -27,6 +27,8 @@ module.exports = {
         "react-hooks"
     ],
     "rules": {
+        // 关闭 对文件扩展名的 校验
+        'import/extensions': 'off',
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         //  允许 在ts、tsx 中书写 jsx
